@@ -23,5 +23,5 @@ echo "Total sequence regions: ${regions}."
 genes=$(awk -F '\t' '{ if ($3 ~ "gene") count++ } END { print count }' $file)
 echo "Total genes: ${genes}."
 
-topTen=$(awk '!/^#/ { counts[$3]++ } END { for (item in counts) print counts[item] "\t" item }' $file | sort -nr | head -10)
+topTen=$(awk '!/^#/ { counts[$3]++ } END { for (_ in counts) print counts[_] "\t" _ }' $file | sort -nr | head -10)
 echo -e "Top-ten most annotated feature types:\n${topTen}"
