@@ -27,6 +27,7 @@ awk -F '\t' ' $3 == "gene" { print $0 }' GCF_000005845.2_ASM584v2_genomic.gff > 
 #### Visualize in IGV 
 
 
-[igv_image](IGV_genes.png)
+![igv_image](IGV_genes.png)
+
 
 
