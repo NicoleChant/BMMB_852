@@ -1,10 +1,5 @@
 # BMMB Repo
 
 
-### Samtools
+### Assignments
 
-```
-mamba install -c bioconda samtools
-samtools --version
-samtools help
-```
