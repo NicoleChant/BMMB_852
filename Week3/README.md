@@ -43,4 +43,4 @@ using random coordinates.
 
 The result on IGV:
 
-![igv_new[(IGV_new_gff.png)
+![igv_new](IGV_new_gff.png)
