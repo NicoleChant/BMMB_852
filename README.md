@@ -1,5 +1,7 @@
-# Samtools
+# BMMB Repo
 
+
+### Samtools
 
 ```
 mamba install -c bioconda samtools
