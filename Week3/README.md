@@ -34,6 +34,10 @@ awk -F '\t' ' $3 == "gene" { print $0 }' GCF_000005845.2_ASM584v2_genomic.gff > 
 #### Visualize in IGV 
 
 
+I uploaded the fasta file from genomes dropdown and then uploaded the GFF file corresponding to E. Coli.
+
+I chose different track colors for reverse and forward strand for the genes. 
+
 ![igv_image](IGV_genes.png)
 
 
