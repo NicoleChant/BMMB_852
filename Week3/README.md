@@ -30,4 +30,17 @@ awk -F '\t' ' $3 == "gene" { print $0 }' GCF_000005845.2_ASM584v2_genomic.gff > 
 ![igv_image](IGV_genes.png)
 
 
+#### Custom GFF File 
 
+
+A custom GFF file was created:
+
+```
+GCF_000005845.2_ASM584v2_genomic.new.gff 
+```
+
+using random coordinates.
+
+The result on IGV:
+
+![igv_new[(IGV_new_gff.png)
