@@ -41,6 +41,10 @@ I chose different track colors for reverse and forward strand for the genes.
 ![igv_image](IGV_genes.png)
 
 
+#### Additional Nucleotide Zoom In 
+
+![igv_zoom](IGV_more_zoomed.png)
+
 #### Custom GFF File 
 
 
