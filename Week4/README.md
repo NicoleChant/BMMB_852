@@ -99,6 +99,51 @@ yields, the following:
 
 The results differ due to different annotations used by refseq and ensemble versions. Probably, versions are also different.
 
+For that reason, I made a second script that works with ftp links that can be found here:
+
+```
+
+```
+
+Now, by running:
+
+
+```
+bash feature_counter.v2.sh 
+```
+
+I obtain the same results as Hahn. I post the text below for verification purposes:
+
+```
+196662	exon
+163268	CDS
+46782	five_prime_UTR
+33738	three_prime_UTR
+30799	mRNA
+13986	gene
+5898	transposable_element_gene
+5898	transposable_element
+4054	ncRNA_gene
+3051	ncRNA
+```
+
+Hanhs results were:
+
+```
+cut -f 3 Drosophila_melanogaster.BDGP6.46.112.gff3 | sort | uniq -c | sort -nr | head -10
+
+196662 exon
+163268 CDS
+46782 five_prime_UTR
+33738 three_prime_UTR
+30799 mRNA
+26148 ###
+13986 gene
+5898 transposable_element_gene
+5898 transposable_element
+4054 ncRNA_gene
+```
+
 #### Errors
 
 
