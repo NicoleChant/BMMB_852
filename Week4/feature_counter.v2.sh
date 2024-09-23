@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-link={1:-"https://ftp.ensembl.org/pub/current_gff3/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.112.gff3.gz"}
+link="${1:-https://ftp.ensembl.org/pub/current_gff3/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.112.gff3.gz}"
 organism=$(basename $link .gff3.gz)
 if [[ ! -f ${organism}.gff3 ]];
 then
