@@ -14,6 +14,10 @@ set -e
 echo -e "Detected accession ${accession}.\nProcessing accession ${accession}."
 destdir=ncbi_dataset/data/${accession}/genomic.gff 
 
+if ! command -v datasets; then
+  echo -e "Datasets command was not found!\nExiting..."
+  exit 1
+fi
 # Download function to download for NCBI
 # What it does:
 # - Generates a temporary directory and downloads the GFF Accession within that temp directory and unzips it.
@@ -51,5 +55,5 @@ echo "Food is in the oven. Please wait..."
 awk -F '\t' '!/^#/ { counts++ } END { print "Total features detected: " counts }' ${accession}.gff 
 # count individual features using AWK 
 # loops over by ignoring comment lines and increases counter if compartment is encountered
-awk -F '\t' '!/^#/ { counts[$3]++ } END { for(_ in counts) print counts[_] "\t" _ }' ${accession}.gff | sort -nr > ${accession}.counts.txt
+awk -F '\t' '!/^#/ { counts[$3]++ } END { for(_ in counts) print counts[_] "\t" _ }' ${accession}.gff | sort -nr | head -10 > ${accession}.counts.txt
 echo "Process has completed. Your resuls are ready here: ${accession}.counts.txt!"
