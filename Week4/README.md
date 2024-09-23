@@ -109,10 +109,18 @@ Now, by running:
 
 
 ```
-bash feature_counter.v2.sh 
+bash feature_counter.v2.sh https://ftp.ensembl.org/pub/current_gff3/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.112.gff3.gz
 ```
 
-I obtain the same results as Hahn. I post the text below for verification purposes:
+the count results will be redirected to the file:
+
+```
+Drosophila_melanogaster.BDGP6.46.112.counts.txt 
+```
+
+A simple inspection of the generated file will prove that I obtain the same results as Hahn
+with sole exception the hashtag which was not excluded from the analysis. 
+I post the text below for verification purposes:
 
 ```
 196662	exon
