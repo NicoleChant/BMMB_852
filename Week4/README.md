@@ -126,10 +126,12 @@ We find out that exon has the following sequence ontology SO:0000147.
 The parents and childrens on exon provided by the bio explain command are displayed below:
 
 *Parents*:
+```
 SO:0000110  sequence_feature
   SO:0000001  region
     SO:0001411  biological_region
       SO:0000833  transcript_region
+```
 
 *Children*:
 - coding_exon 
