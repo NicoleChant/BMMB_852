@@ -102,7 +102,7 @@ The results differ due to different annotations used by refseq and ensemble vers
 For that reason, I made a second script that works with ftp links that can be found here:
 
 ```
-
+wget https://github.com/NicoleChant/BMMB_852/blob/master/Week4/feature_counter.v2.sh
 ```
 
 Now, by running:
