@@ -6,7 +6,7 @@
 Bash script can be download here:
 
 ```
-wget 
+wget https://raw.githubusercontent.com/NicoleChant/BMMB_852/refs/heads/master/Week4/feature_counter.sh
 ```
 
 #### Usage
