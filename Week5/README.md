@@ -10,6 +10,17 @@ Use as follows:
 bash pipeline_week4.sh <your_accession_id>
 ```
 
+Before running make sure to have wgsim installed. On linux you can use:
+
+```
+sudo apt-get install samtools
+```
+
+Check the version:
+```
+wgsim --version
+```
+
 For instance, you can try the following to generate my results:
 
 ```

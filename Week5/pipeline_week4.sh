@@ -55,6 +55,11 @@ totalReads=$((coverage * genomeSize / READ_LENGTH))
 echo -e "\nEstimated total reads for desired coverage ${coverage}x---> Total Reads = ${totalReads}."
 echo -e "\nProceeding with calculation..."
 
+if ! command -v wgsim > /dev/null; then
+  echo -e "Please install samtools (wgsim) to proceed.\nExiting..."
+  exit 1
+fi
+
 mkdir reads/
 wgsim -N ${totalReads} -1 ${READ_LENGTH} -2 ${READ_LENGTH} -r 0 -R 0 -X 0 ${accession} reads/read1.fq reads/read2.fq
 
