@@ -1,8 +1,27 @@
 ## Week 5
 
+Please note, the pipeline used to generate this analysis is present here:
+
+[pipeline](https://raw.githubusercontent.com/NicoleChant/BMMB_852/refs/heads/master/Week5/pipeline_week4.sh)
+
+
+Use as follows:
+
+```
+bash pipeline_week4.sh <your_accession_id>
+```
+
+For instance,
+
+```
+bash pipeline_week4.sh 
+```
+
+works on a default assembly id.
+
 ### Task 1
 
-**Select a genome, then download the corresponding FASTA file.**
+*Select a genome, then download the corresponding FASTA file.*
 
 I have chosen *Klebsiella pneumoniae*. The corresponding genbank accession id is: GCA_000240185.2.
 
@@ -26,7 +45,6 @@ We can use
 ls -h -s 
 ```
 
-or
 ```
 stat -c "%s" GCA_000240185.2_ASM24018v2_genomic.fna 
 5753994
@@ -76,11 +94,9 @@ CP003227.1 Klebsiella pneumoniae subsp. pneumoniae HS11286 plasmid pKPHS5, compl
 CP003228.1 Klebsiella pneumoniae subsp. pneumoniae HS11286 plasmid pKPHS6, complete sequence	1308
 ```
 
-
 ### Task 2
 
-
-**Generate a simulated FASTQ output for a sequencing instrument of your choice.  Set the parameters so that your target coverage is 10x.**
+*Generate a simulated FASTQ output for a sequencing instrument of your choice.  Set the parameters so that your target coverage is 10x.*
 
 Genome size is equal to: 5,682,322 bp. In order to achiveme 10x coverage we need:
 
@@ -136,7 +152,7 @@ corresponds to a particular read number given the formula above.
 
 ### Task 3 
 
-**How much data would be generated when covering the Yeast,  the Drosophila or the Human genome at 30x?**
+*How much data would be generated when covering the Yeast,  the Drosophila or the Human genome at 30x?*
 
 Now imagine that instead of your genome, each instrument generated reads that cover the Yeast, Drosophila, 
 and Human genomes at 30x coverage (separate runs for each organism). You don't have to run the tool all you need is to estimate.
