@@ -10,7 +10,8 @@ Use as follows:
 bash pipeline_week4.sh <your_accession_id>
 ```
 
-Before running make sure to have wgsim installed. On linux you can use:
+Before running make sure to have wgsim installed and remove any directory named *reads/* because this is where the
+read simulations will be stored. On linux you can use:
 
 ```
 sudo apt-get install samtools
@@ -138,20 +139,39 @@ grep -a '^@' read2.fq  | wc -l
 ```
 - What is the average read length?
 
+Since, it's decided deterministically from read length that is being given as input to
+wgsim, due to the parameters I used (non-random), it's 200bp as I specified in the beginning.
+
+But we can check, by using:
+
+```
+seqkit stat reads/*
+```
+
+The output is:
+```
+processed files:  2 / 2 [======================================] ETA: 0s. done
+file            format  type  num_seqs     sum_len  min_len  avg_len  max_len
+reads/read1.fq  FASTQ   DNA    284,117  56,823,400      200      200      200
+reads/read2.fq  FASTQ   DNA    284,117  56,823,400      200      200      200
+```
+
+Hence, the average read is 200bp.
+
 - How big are the FASTQ files?
 
 ```
-du -sh *
-123M	read1.fq
-123M	read2.fq
+du -sh reads/*
+123M	reads/read1.fq
+123M	reads/read2.fq
 ```
 
 - Compress the files and report how much space that saves.
 
 ```
-du -sh *
-23M	read1.fq.gz
-23M	read2.fq.gz
+du -sh reads/*
+23M	reads/read1.fq.gz
+23M	reads/read2.fq.gz
 ```
 
 We save 200M space by compressing both of the read files.
