@@ -194,9 +194,9 @@ and the size of the FASTQ files before and after compression.
 
 Please note, each genome, depending on the version has different Genome Size. I will choose Homo sapiens hg38, here:
 
-[homosapiens](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.26/)
-[drosophila](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001215.4/)
-[yeast](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000146045.2/)
+- [homosapiens](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.26/)
+- [drosophila](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001215.4/)
+- [yeast](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000146045.2/)
 
 - hg38 version of Homo sapiens has genome size equal to: 3.1 Gb.
 - Drosophila version is equal to: 143.7 Mb.
@@ -205,7 +205,7 @@ Please note, each genome, depending on the version has different Genome Size. I 
 For the hg38 we have: Genome Size = 3,100,000,000 and consequently, assuming 150 read length, the total number of reads we need 
 to achieve 30x coverage is equal to:
 
-$Total Reads = \frac{G \times C}{ 150 bp } = \frac{ 3,100,000,000 \times 30 }{ 150 } = 6200000000$
+$Total Reads = \frac{G \times C}{ 150 bp } = \frac{ 3,100,000,000 \times 30 }{ 150 } = 6,200,000,000$
 
 The entire fasta file that holds the genome must be approximately equal to the genome size plus the additional headers and new line characters.
 
@@ -221,7 +221,7 @@ ATCTACGGCCTCTTCTCCTGGCCGTGGCTGGGGTTTGTCGGCTCCGGGCTTGGGCTGACCATTGCCCGCTATATTGGCGC
 To estimate the byte size of a FASTQ file we need to observe that approximately:
 
 ```
-FASTQ Bytes = Total Reads X ( 2 X READ LENGTH + 1 + Header Length + 4)
+FASTQ Bytes = Total Reads x ( 2 x Read Length + 1 + Header Length + 4)
 ```
 
 This formula is based on the fact that for each read with also have the quality score, plus 1 byte for the separator line and the overhead for the header. 
@@ -231,7 +231,7 @@ I am not sure how to estimate the header. I would say it's maximum 50 characters
 Thus, in our example, using the formula above the answer is equal to:
 
 ```
-FASTQ Bytes = 620000 X ( 2 X 150 + 1 + 4 + 43 ) = 215.76 Gb
+FASTQ Bytes = 620000 x ( 2 x 150 + 1 + 4 + 43 ) = 215.76 Gb
 ```
 
 Note that we have two reads, but I will do all the calculations on just the one of two.
@@ -241,7 +241,7 @@ Note that we could use another tool for compression more targeted to genomic seq
 I would suggest that after compression with gzip using default flag, the total bytesize would be reduced to:
 
 ```
-Compressed FASTQ Bytes = 215.76 Gb * 0.19 = 40.994 Gb (81% decrease)
+Compressed FASTQ Bytes = 215.76 Gb x 0.19 = 40.994 Gb (81% decrease)
 ```
 
 Okay for now I am not sure about my previous calculations. Let me try to compare my logic with the output from the previous tasks.
@@ -275,14 +275,18 @@ Applying the same calculations to Drosophila and Yeast, we obtain:
 - Drosophila version is equal to: 143.7 Mb.
 - Yeast is equal to: 12.1 Mb.
 
-$Total Reads Drosophila = \frac{G \times C}{ 150 bp } = \frac{ 143,700,000 \times 30 }{ 150 } = 28,740,000$
-$Total Reads Yeast = \frac{G \times C}{ 150 bp } = \frac{ 12,100,000 \times 30 }{ 150 } = 2,420,000$
+```
+Total Reads Drosophila = G x C / 150 bp = 143,700,000 x 30 / 150 = 28,740,000
+Total Reads Yeast = G x C / 150 bp = 12,100,000 x 30 / 150 = 2,420,000
 
-$FastQ Size Drosophila = Total Reads Drosophila \times ( 2 \times 150 + 4 + 1 + 43) = 10 Gb$
-$FastQ Size Yeast = Total Reads Yeast \times ( 2 \times 150 + 4 + 1 + 43) = 0.84 Gb$
+FastQ Size Drosophila = Total Reads Drosophila x ( 2 x 150 + 4 + 1 + 43) = 10 Gb
+FastQ Size Yeast = Total Reads Yeast x ( 2 x 150 + 4 + 1 + 43) = 0.84 Gb
 
-$FastQ Size Drosophila Compressed = 0.19 \times FastQ Mb Drosophila = 1.9 Gb$
-$FastQ Size Yeast Compressed = 0.19 \times FastQ Mb Yeast = 160.01 Mb$
+FastQ Size Drosophila Compressed = 0.19 \x FastQ Size Drosophila = 1.9 Gb
+FastQ Size Yeast Compressed = 0.19 x FastQ Size Yeast = 160.01 Mb
+```
+
+Original fast sizes are approximately equal to genome sizes with an additional overhead due to newlines and headers.
 
 I am not sure about my calculations but I tried to follow a specific line thought. 
 
