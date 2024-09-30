@@ -2,12 +2,12 @@
 
 Please note, the pipeline used to generate this analysis is present here:
 
-[pipeline](https://raw.githubusercontent.com/NicoleChant/BMMB_852/refs/heads/master/Week5/pipeline_week4.sh)
+[pipeline](https://raw.githubusercontent.com/NicoleChant/BMMB_852/refs/heads/master/Week5/script.sh)
 
 Use as follows:
 
 ```
-bash pipeline_week4.sh <your_accession_id>
+bash script.sh <your_accession_id>
 ```
 
 Before running make sure to have wgsim installed and remove any directory named *reads/* because this is where the
@@ -25,8 +25,8 @@ wgsim --version
 For instance, you can try the following to generate my results:
 
 ```
-wget https://raw.githubusercontent.com/NicoleChant/BMMB_852/refs/heads/master/Week5/pipeline_week4.sh
-bash pipeline_week4.sh 
+wget https://raw.githubusercontent.com/NicoleChant/BMMB_852/refs/heads/master/Week5/script.sh
+bash script.sh 
 ```
 
 works on a default assembly id.
