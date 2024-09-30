@@ -66,8 +66,12 @@ wgsim -N ${totalReads} -1 ${READ_LENGTH} -2 ${READ_LENGTH} -r 0 -R 0 -X 0 ${acce
 echo -e "\n############# Estimating read sizes #############"
 du -sh reads/*
 
+echo -e "\n############### Average read length ###############"
+seqkit stat reads/* 2> /dev/null
+
 echo -e "\n############### Compressing reads ################"
 gzip -f reads/*
+echo "Compression Status: Finished!"
 
 echo -e "\n############## Calculating new compressed read sizes #################"
 du -sh reads/*
