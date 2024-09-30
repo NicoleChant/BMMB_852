@@ -174,7 +174,7 @@ du -sh reads/*
 23M	reads/read2.fq.gz
 ```
 
-We save 200M space by compressing both of the read files.
+We save 200M space by compressing both of the read files. Thus, we had approximately, 81,3% decrease in disk usage by compressing the read files.
 
 - Discuss whether you could get the same coverage with different parameter settings (read length vs. read number).
 
@@ -195,8 +195,97 @@ and the size of the FASTQ files before and after compression.
 Please note, each genome, depending on the version has different Genome Size. I will choose Homo sapiens hg38, here:
 
 [homosapiens](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.26/)
+[drosophila](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001215.4/)
+[yeast](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000146045.2/)
 
-hg38 version of Homo sapiens has genome size equal to 3.1 Gb.
+- hg38 version of Homo sapiens has genome size equal to: 3.1 Gb.
+- Drosophila version is equal to: 143.7 Mb.
+- Yeast is equal to: 12.1 Mb.
 
+For the hg38 we have: Genome Size = 3,100,000,000 and consequently, assuming 150 read length, the total number of reads we need 
+to achieve 30x coverage is equal to:
 
+$Total Reads = \frac{G \times C}{ 150 bp } = \frac{ 3,100,000,000 \times 30 }{ 150 } = 6200000000$
 
+The entire fasta file that holds the genome must be approximately equal to the genome size plus the additional headers and new line characters.
+
+We note that in a FASTQ file for each read there are four associated lines, i.e.
+
+```
+@CP003200.1_3505156_3505592_7:0:0_5:0:0_0/1
+ATCTACGGCCTCTTCTCCTGGCCGTGGCTGGGGTTTGTCGGCTCCGGGCTTGGGCTGACCATTGCCCGCTATATTGGCGCGATAGCCACGATCTGGGTGCTGATGGTGGGCCTCAATCCGGCGCTGCTGCTGTCGCTGAAGGGTTACTTCAAACCCTTTAACTTCGCCATTATCTGGGAGGTGATGGGGATCGTCATCCC
++
+22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+```
+
+To estimate the byte size of a FASTQ file we need to observe that approximately:
+
+```
+FASTQ Bytes = Total Reads X ( 2 X READ LENGTH + 1 + Header Length + 4)
+```
+
+This formula is based on the fact that for each read with also have the quality score, plus 1 byte for the separator line and the overhead for the header. 
+Additionally, we have 4 bytes for the newline characters that we must add on each read, one corresponding to each line of the read (read has 4 lines in total).
+I am not sure how to estimate the header. I would say it's maximum 50 characters, so let's settle at 43 bytes (My example has 39 longest header)?
+
+Thus, in our example, using the formula above the answer is equal to:
+
+```
+FASTQ Bytes = 620000 X ( 2 X 150 + 1 + 4 + 43 ) = 215.76 Gb
+```
+
+Note that we have two reads, but I will do all the calculations on just the one of two.
+
+We noticed that compressing using gzip (with normal compression mode - default), reduces the disk usage by 81%. Assuming approximately 81% (it really depends), 
+Note that we could use another tool for compression more targeted to genomic sequences rather than gzip. 
+I would suggest that after compression with gzip using default flag, the total bytesize would be reduced to:
+
+```
+Compressed FASTQ Bytes = 215.76 Gb * 0.19 = 40.994 Gb (81% decrease)
+```
+
+Okay for now I am not sure about my previous calculations. Let me try to compare my logic with the output from the previous tasks.
+
+In my case I used 200bp read lengths for Klebsiella pneumoniae genome. 
+Thus, assuming average header length around 43bp long, the fastq size must be approximately:
+
+```
+>>> 284117 * ( 2 * 200 + 43 + 4 + 1)
+127284416
+```
+
+Using stat command I find:
+```
+stat read1.fq  | grep -a 'Size' | awk '{ print $1 $2 }'
+Size:128142575
+```
+
+Which is very close to the one derived by my formula. I assume the difference lies within the varying header sizes.
+Furthermore, by compressing using gzip I observe that:
+
+```
+>>> 0.19 * 128142575
+24347089.25
+>>> 23200583 
+23200583
+```
+
+Applying the same calculations to Drosophila and Yeast, we obtain:
+
+- Drosophila version is equal to: 143.7 Mb.
+- Yeast is equal to: 12.1 Mb.
+
+$Total Reads Drosophila = \frac{G \times C}{ 150 bp } = \frac{ 143,700,000 \times 30 }{ 150 } = 28,740,000$
+$Total Reads Yeast = \frac{G \times C}{ 150 bp } = \frac{ 12,100,000 \times 30 }{ 150 } = 2,420,000$
+
+$FastQ Size Drosophila = Total Reads Drosophila \times ( 2 \times 150 + 4 + 1 + 43) = 10 Gb$
+$FastQ Size Yeast = Total Reads Yeast \times ( 2 \times 150 + 4 + 1 + 43) = 0.84 Gb$
+
+$FastQ Size Drosophila Compressed = 0.19 \times FastQ Mb Drosophila = 1.9 Gb$
+$FastQ Size Yeast Compressed = 0.19 \times FastQ Mb Yeast = 160.01 Mb$
+
+I am not sure about my calculations but I tried to follow a specific line thought. 
+
+Thank you for reading this far!
+
+**The End!** 🪄
