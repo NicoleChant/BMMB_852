@@ -1,9 +1,13 @@
 #!/bin/bash 
 
-set -ex 
+set -eu
+
+# CONSTANTS
+READ_LENGTH=200
 
 # download genome 
-accession_id=GCA_000240185.2
+accession_id=${1:-GCA_000240185.2}
+coverage=${2:-10}
 
 # isolate annoying ncbi dataset 
 tmp=temp${RANDOM}
@@ -12,21 +16,53 @@ cd ${tmp}/
 
 datasets download genome accession ${accession_id}
 unzip -o ncbi_dataset.zip
-mv ncbi_dataset/data/${accession_id}/*.fna ..
+mv ncbi_dataset/data/${accession_id}/*.fna .
+accession=$(find . -type f -name "*.fna" | head -1)
+mv ${accession} ..
 
 cd ..
 rm -rf ${tmp}
 # remove temp file 
 #
-# calculate genome size 
-stat -c "%s" GCA_000240185.2_ASM24018v2_genomic.fna 
+echo -e "Working on: ${accession}\n"
+echo "########## Calculating file size ##############"
+
+# calculate size 
+stat -c "%s" ${accession}
+
+# disk usage
+du -sh ${accession}
+
+echo -e "\n########### Calculating genome stats #################"
 
 # calculate genome stats
-seqkit stat GCA_000240185.2_ASM24018v2_genomic.fna 
+seqkit stat ${accession}
 
+# calculate genome size 
+echo -e "\n############# Isolating genome size ###################"
+genomeSize=$(seqkit stat GCA_000240185.2_ASM24018v2_genomic.fna | awk '{ gsub(/,/, ""); print $5}' | tail -1)
+echo "Genome size of ${accession_id} estimated at: ${genomeSize}bp"
+
+echo -e "\n############ Calculating chromosome names lengths ################"
 # total chromosomes and length per chromosome
-seqkit fx2tab --name --length GCA_000240185.2_ASM24018v2_genomic.fna 
+seqkit fx2tab --name --length ${accession}
 
 # generate reads
-mkdir -p reads/
-wgsim -N 284116 -1 200 -2 200 -r 0 -R 0 -X 0 GCA_000240185.2_ASM24018v2_genomic.fna reads/read1.fq reads/read2.fq
+echo -e "\n############### Generating sequence reads ##############"
+echo -e "Specified Coverage: ${coverage}.\nSpecified Read Length: ${READ_LENGTH}.\nDetected genome size: ${genomeSize}.\nOUTPUT ---> reads/"
+
+totalReads=$((coverage * genomeSize / READ_LENGTH))
+echo -e "\nEstimated total reads for desired coverage ${coverage}x---> Total Reads = ${totalReads}."
+echo -e "\nProceeding with calculation..."
+
+mkdir reads/
+wgsim -N ${totalReads} -1 ${READ_LENGTH} -2 ${READ_LENGTH} -r 0 -R 0 -X 0 ${accession} reads/read1.fq reads/read2.fq
+
+echo -e "\n############# Estimating read sizes #############"
+du -sh reads/*
+
+echo -e "\n############### Compressing reads ################"
+gzip -f reads/*
+
+echo -e "\n############## Calculating new compressed read sizes #################"
+du -sh reads/*
