@@ -205,7 +205,7 @@ Please note, each genome, depending on the version has different Genome Size. I 
 For the hg38 we have: Genome Size = 3,100,000,000 and consequently, assuming 150 read length, the total number of reads we need 
 to achieve 30x coverage is equal to:
 
-$Total Reads = \frac{G \times C}{ 150 bp } = \frac{ 3,100,000,000 \times 30 }{ 150 } = 6,200,000,000$
+$Total Reads = \frac{G \times C}{ 150 bp } = \frac{ 3,100,000,000 \times 30 }{ 150 } = 620,000,000$
 
 The entire fasta file that holds the genome must be approximately equal to the genome size plus the additional headers and new line characters.
 
