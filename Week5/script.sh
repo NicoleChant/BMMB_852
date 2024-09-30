@@ -4,11 +4,20 @@ set -ex
 
 # download genome 
 accession_id=GCA_000240185.2
+
+# isolate annoying ncbi dataset 
+tmp=temp${RANDOM}
+mkdir ${tmp}/
+cd ${tmp}/
+
 datasets download genome accession ${accession_id}
-
 unzip -o ncbi_dataset.zip
-mv ncbi_dataset/${accession_id}/*.fna ..
+mv ncbi_dataset/data/${accession_id}/*.fna ..
 
+cd ..
+rm -rf ${tmp}
+# remove temp file 
+#
 # calculate genome size 
 stat -c "%s" GCA_000240185.2_ASM24018v2_genomic.fna 
 
