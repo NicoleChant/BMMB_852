@@ -91,11 +91,6 @@ Thus, by arbitarily setting Read Length equal to 200bp, we need approximately: 2
 I will use the following command with wgsim:
 
 # Simulate with no errors and no mutations
-wgsim -N ${N} -1 ${L} -2 ${L} -r 0 -R 0 -X 0 \
-      ${GENOME} ${R1} ${R2}
-
-wgsim -N 20000000 -1 150 -2 150 -e 0.01 -d 500 -s 100 genome.fa output_prefix
-wgsim -N 284116 -1 200 -2 200 -e 0 
 
 ```
 mkdir -p reads/
