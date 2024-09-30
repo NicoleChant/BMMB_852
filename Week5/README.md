@@ -282,7 +282,7 @@ Total Reads Yeast = G x C / 150 bp = 12,100,000 x 30 / 150 = 2,420,000
 FastQ Size Drosophila = Total Reads Drosophila x ( 2 x 150 + 4 + 1 + 43) = 10 Gb
 FastQ Size Yeast = Total Reads Yeast x ( 2 x 150 + 4 + 1 + 43) = 0.84 Gb
 
-FastQ Size Drosophila Compressed = 0.19 \x FastQ Size Drosophila = 1.9 Gb
+FastQ Size Drosophila Compressed = 0.19 x FastQ Size Drosophila = 1.9 Gb
 FastQ Size Yeast Compressed = 0.19 x FastQ Size Yeast = 160.01 Mb
 ```
 
