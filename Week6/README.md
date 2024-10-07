@@ -1,7 +1,6 @@
 # Week 6
 
-
-- Write a script that downloads data from the SRA Links to an external site. or ENA
+Write a script that downloads data from the SRA Links to an external site. or ENA
 database and performs a quality control analysis on the data.
 
 Identify a bad sequencing dataset. You may need to evaluate multiple SRR numbers to find one with poor quality.
