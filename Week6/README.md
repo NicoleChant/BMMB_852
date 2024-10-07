@@ -46,7 +46,9 @@ We note that the quality of the data are displayed below:
 
 We will use fastp to improve the quality by trimming and using the adapter sequence:
 
+
 ```
+ADAPTER=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
 fastp --adapter_sequence=${ADAPTER} --cut_tail \
       -i ${R1} -I ${R2} -o ${T1} -O ${T2} 
 ```
