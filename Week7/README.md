@@ -25,5 +25,12 @@ make download      # Download reads from SRA
 make trim          # Trim reads using fastp
 make fastqc        # Run FastQC on trimmed reads
 make multiqc       # Run MultiQC to summarize FastQC reports
-make report        # Generate a full quality control report
 ```
+
+You can skip downloading the genome using `make genome`, since by directly using simulate command, the given genome will be downloaded automatically. 
+
+```
+make simulate
+```
+
+With `make download` we can download SRR reads. Finally, by using `make fastqc` we can trim the reads and finally generate a report using multiqc.
