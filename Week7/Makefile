@@ -14,7 +14,7 @@ SEED = 42  # Random seed for reproducibility
 READ_LENGTH = 150  # Read length for simulation
 GENOME = $(ACC).fa
 # Default target
-all: usage
+all: genome simulate download trim fastqc
 
 # Help target
 usage:
@@ -42,13 +42,12 @@ download:
 	prefetch $(SRR)
 	fasterq-dump --split-files $(SRR)
 
-trim: download
+trim: 
+	mkdir -p trimmed_reads/
 	fastp --adapter_sequence=$(ADAPTER) --cut_tail \
-	      -i $(R1) -o $(T1)
+	      -i $(SRR)_1.fastq -I $(SRR)_2.fastq -o $(T1) -O $(T2)
 
 fastqc: trim
-	mkdir -p reads/
-	mkdir -p trimmed_reads/
 	fastqc -q -o $(PDIR) $(T1) $(T2)
 
 multiqc: fastqc
