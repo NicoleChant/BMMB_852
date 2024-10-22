@@ -77,9 +77,9 @@ With `make download` we can download SRR reads. Finally, by using `make fastqc` 
 
 ### Reports
 
-![report1](SRR15829420_1_fastqc.html)
+![report1](reports/SRR15829420_1_fastqc.html)
 
-![report2](SRR15829420_2_fastqc.html)
+![report2](reports/SRR15829420_2_fastqc.html)
 
 
 ### Visualization in IGV
