@@ -77,9 +77,9 @@ With `make download` we can download SRR reads. Finally, by using `make fastqc` 
 
 ### Reports
 
-![report1](reports/SRR15829420_1_fastqc.html)
+Trimmed Reads Quality
 
-![report2](reports/SRR15829420_2_fastqc.html)
+![report2](reports/reads_quality.png)
 
 
 ### Visualization in IGV
@@ -89,3 +89,5 @@ With `make download` we can download SRR reads. Finally, by using `make fastqc` 
 I colored the negative reads in red color.
 
 We can see that several reads have substitutions and probably some non-synonymous mutations alongside frameshits.
+
+![igv2](IGV_Strands.png)
