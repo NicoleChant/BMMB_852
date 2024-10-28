@@ -15,8 +15,7 @@ PRJNA741723
 
 The sample is the Delta variant in Bangladeshi sample.
 
-![corona](https://giphy.com/gifs/c4d-virus-alert-MCAFTO4btHOaiNRO1k)
-
+![corona](https://media.giphy.com/media/MCAFTO4btHOaiNRO1k/giphy.gif?cid=790b7611995r701whaqprrihc3d36dnvcti6v3e33jdsuujm&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 We will align this to the reference genome of SARS COVID-2 with the following accession ID:
 
 ## Introduction
