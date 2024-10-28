@@ -72,7 +72,7 @@ The output was:
 
 ```
 samtools view -c -f 4 align.bam
-0
+400809
 ```
 
 Thus, all my reads were aligned properly.
@@ -89,9 +89,9 @@ samtools view -c -f 0x800 align.bam  # Supplementary alignments
 
 Output of the commands above:
 ```
-20000
+10942096
 0
-0
+69304
 ```
 
 All alignments are primary.
@@ -112,7 +112,7 @@ and 0x40 which stands for *first in pair* with
 
 Output:
 ```
-10000
+5201207
 ```
 
 #### Question 4
@@ -144,40 +144,42 @@ samtools flagstat filtered.bam
 ```
 
 Output for align.bam:
+
 ```
-20000 + 0 in total (QC-passed reads + QC-failed reads)
-20000 + 0 primary
+11011400 + 0 in total (QC-passed reads + QC-failed reads)
+10942096 + 0 primary
 0 + 0 secondary
-0 + 0 supplementary
+69304 + 0 supplementary
 0 + 0 duplicates
 0 + 0 primary duplicates
-20000 + 0 mapped (100.00% : N/A)
-20000 + 0 primary mapped (100.00% : N/A)
-20000 + 0 paired in sequencing
-10000 + 0 read1
-10000 + 0 read2
-20000 + 0 properly paired (100.00% : N/A)
-20000 + 0 with itself and mate mapped
-0 + 0 singletons (0.00% : N/A)
+10610591 + 0 mapped (96.36% : N/A)
+10541287 + 0 primary mapped (96.34% : N/A)
+10942096 + 0 paired in sequencing
+5471048 + 0 read1
+5471048 + 0 read2
+10365724 + 0 properly paired (94.73% : N/A)
+10530672 + 0 with itself and mate mapped
+10615 + 0 singletons (0.10% : N/A)
 0 + 0 with mate mapped to a different chr
-0 + 0 with mate mapped to a different chr (mapQ>=5)jj
+0 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
 
-Output for filtered.bam:
+Output for filtered.bam
+
 ```
-20000 + 0 in total (QC-passed reads + QC-failed reads)
-20000 + 0 primary
+10365461 + 0 in total (QC-passed reads + QC-failed reads)
+10365461 + 0 primary
 0 + 0 secondary
 0 + 0 supplementary
 0 + 0 duplicates
 0 + 0 primary duplicates
-20000 + 0 mapped (100.00% : N/A)
-20000 + 0 primary mapped (100.00% : N/A)
-20000 + 0 paired in sequencing
-10000 + 0 read1
-10000 + 0 read2
-20000 + 0 properly paired (100.00% : N/A)
-20000 + 0 with itself and mate mapped
+10365461 + 0 mapped (100.00% : N/A)
+10365461 + 0 primary mapped (100.00% : N/A)
+10365461 + 0 paired in sequencing
+5182812 + 0 read1
+5182649 + 0 read2
+10365461 + 0 properly paired (100.00% : N/A)
+10365461 + 0 with itself and mate mapped
 0 + 0 singletons (0.00% : N/A)
 0 + 0 with mate mapped to a different chr
 0 + 0 with mate mapped to a different chr (mapQ>=5)
