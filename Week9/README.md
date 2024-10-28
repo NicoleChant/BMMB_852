@@ -19,6 +19,8 @@ The sample is the Delta variant in Bangladeshi sample.
 
 We will align this to the reference genome of SARS COVID-2 with the following accession ID:
 
+NC_045512.2
+
 ## Introduction
 
 This Makefile combines read simulation, downloading, trimming, and quality control into a single pipeline. It uses `fastp` for trimming reads and `FastQC` for quality checks, and summarizes the results with `MultiQC`.

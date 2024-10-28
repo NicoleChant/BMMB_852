@@ -1,8 +1,9 @@
 # Variables
 SRR=SRR15829420
+# SRR=SRR31121015
 ACC=NC_045512.2
-R1=reads/${SRR}_1.fastq
-R2=reads/${SRR}_2.fastq
+R1=download_reads/${SRR}_1.fastq
+R2=download_reads/${SRR}_2.fastq
 
 N=10000  # Number of reads to simulate or download
 T1=trimmed_${R1}
@@ -18,7 +19,7 @@ SAM=align.sam
 BAM=align.bam
 
 # Default target
-all: genome simulate download trim fastqc align
+all: genome download trim fastqc align
 
 # Help target
 usage:
@@ -52,7 +53,7 @@ download:
 	# fasterq-dump --split-files --outdir reads/ ${SRR}
 
 trim: 
-	mkdir -p trimmed_reads/
+	mkdir -p trimmed_download_reads/
 	fastp --adapter_sequence=${ADAPTER} --cut_tail \
 	      -i download_reads/${SRR}_1.fastq -I download_reads/${SRR}_2.fastq -o ${T1} -O ${T2}
 
