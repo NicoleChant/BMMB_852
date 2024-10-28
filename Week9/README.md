@@ -75,7 +75,12 @@ samtools view -c -f 4 align.bam
 400809
 ```
 
-Thus, all my reads were aligned properly.
+To find all reads that did align (were mapped to reference):
+
+```
+samtools view -c -F 4 align.bam
+10610591
+```
 
 #### Question 2
 
@@ -98,7 +103,8 @@ All alignments are primary.
 
 #### Question 3
 
-- How many properly-paired alignments on the reverse strand are formed by reads contained in the first pair?
+- How many properly-paired alignments on the 
+reverse strand are formed by reads contained in the first pair?
 
 ```
 samtools view -c -f 66 align.bam
