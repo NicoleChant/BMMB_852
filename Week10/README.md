@@ -2,6 +2,8 @@
 
 ## Variant Calling Format
 
+I used again the viral genome I am using for all weeks.
+
 I downloaded the following SRR:
 
 ```
@@ -48,149 +50,68 @@ Using the Makefile from the previous week I created a file:
 align.bam
 ```
 
-I will answer the following questions:
+#### Variant Calling 
 
-- How many reads did not align with the reference genome? 
-- How many primary, secondary, and supplementary alignments are in the BAM file?
-- How many properly-paired alignments on the reverse strand are formed by reads
-contained in the first pair?
-- Make a new BAM file that contains only the properly paired primary alignments with 
-a mapping quality over 10.
-- Compare the flagstats for your original and your filtered BAM file.
-
-
-#### How many reads did not align with the reference genome?
-
-We will use the view command from samtools to get the cound of reads that did not align:
+I added the following two commands in my Makefile:
 
 ```
-samtools view -c -f 4 align.bam
+call_variants:
+	bcftools mpileup -Ov -f $(REF) $(BAM) > genotypes.vcf
+
+call_variants_from_genotypes:
+	bcftools call -mv -Ov --ploidy 1 genotypes.vcf > observed-mutations.vcf
 ```
 
-Explanation of flags:
+To find the variants from the aligned bam file. The viral genomes are obviously ploidy=1.
 
-- c: provides the counts
-- f 4: specifies to count reads that were not mapped (i.e. didn't align to the reference)
+If you see any mistakes please correct me. :)
 
-The output was:
+Then, I used the observed-mutations to produce the results of the next section.
 
-```
-samtools view -c -f 4 align.bam
-400809
-```
+#### Results
 
-To find all reads that did align (were mapped to reference):
+I loaded the observed mutations vcf file in IGV. I attach the following pictures:
+
+For instance, let's zoom in the following region that we fetch from our vcf file:
 
 ```
-samtools view -c -F 4 align.bam
-10610591
+cat observed-mutations.vcf | grep -a '164'    
+NC_045512.2	16466	.	C	T	228.431	.	DP=250;VDB=5.50447e-13;SGB=-0.693147;RPBZ=-0.353883;BQBZ=3.58628;SCBZ=0.310265;FS=0;MQ0F=0;AC=1;AN=1;DP4=0,1,211,38;MQ=60	GT:PL	1:255,0
 ```
 
-#### Question 2
+We can see this mutation in IGV indicated as blue. Blue means homozygous but in viral genomes it doesn't make any difference.
 
-- How many primary, secondary, and supplementary alignments are in the BAM file?
+![mut](IGV_mutation.png)
 
-```
-samtools view -c -F 0x900 align.bam  # Primary alignments
-samtools view -c -f 0x100 align.bam  # Secondary alignments
-samtools view -c -f 0x800 align.bam  # Supplementary alignments
-```
+Furthermore, we can check the mutation box:
 
-Output of the commands above:
-```
-10942096
-0
-69304
-```
+![mut_info](mut_info.png)
 
-All alignments are primary.
+Indeed, we can see that we have a SNP from C (reference) to T (called variant).
 
-#### Question 3
-
-- How many properly-paired alignments on the 
-reverse strand are formed by reads contained in the first pair?
+By using
 
 ```
-samtools view -c -f 66 align.bam
+bcftools stats observed-mutations.vcf
 ```
 
-*Explanation*
-
-The flag -f 66 combines 0x2 which stands for *properly paired* 
-and 0x40 which stands for *first in pair* with 
-0x10 which stands for *reverse strand*.
-
-Output:
-```
-5201207
-```
-
-#### Question 4
-
-- Make a new BAM file that contains only the porperly paired primary alignments with a mapping quality over 10
+we obtain the following table with transition counts for substitutions:
 
 ```
-samtools view -b -q 10 -f 2 -F 0x904 align.bam > filtered.bam
+# ST, Substitution types:
+# ST	[2]id	[3]type	[4]count
+ST	0	A>C	0
+ST	0	A>G	3
+ST	0	A>T	1
+ST	0	C>A	2
+ST	0	C>G	2
+ST	0	C>T	18
+ST	0	G>A	4
+ST	0	G>C	0
+ST	0	G>T	5
+ST	0	T>A	0
+ST	0	T>C	4
+ST	0	T>G	1
 ```
 
-*Explanation*
-
-The flag -q 10 filters for mapping quality greater than 10, while the 
--f 2 ensures reads are properly paired. Moreover, -b outputs in BAM format and
--F 0x904 excludes secondary and supplementary alignments.
-
-#### Question 5
-
-- Compare the flagstats for your original and your filtered BAM file.
-
-The flagstat of samtools package provides a summary of alignments, 
-including total reads, mapped reads, properly paired reads.
-
-By using the following command:
-
-```
-samtools flagstat align.bam
-samtools flagstat filtered.bam
-```
-
-Output for align.bam:
-
-```
-11011400 + 0 in total (QC-passed reads + QC-failed reads)
-10942096 + 0 primary
-0 + 0 secondary
-69304 + 0 supplementary
-0 + 0 duplicates
-0 + 0 primary duplicates
-10610591 + 0 mapped (96.36% : N/A)
-10541287 + 0 primary mapped (96.34% : N/A)
-10942096 + 0 paired in sequencing
-5471048 + 0 read1
-5471048 + 0 read2
-10365724 + 0 properly paired (94.73% : N/A)
-10530672 + 0 with itself and mate mapped
-10615 + 0 singletons (0.10% : N/A)
-0 + 0 with mate mapped to a different chr
-0 + 0 with mate mapped to a different chr (mapQ>=5)
-```
-
-Output for filtered.bam
-
-```
-10365461 + 0 in total (QC-passed reads + QC-failed reads)
-10365461 + 0 primary
-0 + 0 secondary
-0 + 0 supplementary
-0 + 0 duplicates
-0 + 0 primary duplicates
-10365461 + 0 mapped (100.00% : N/A)
-10365461 + 0 primary mapped (100.00% : N/A)
-10365461 + 0 paired in sequencing
-5182812 + 0 read1
-5182649 + 0 read2
-10365461 + 0 properly paired (100.00% : N/A)
-10365461 + 0 with itself and mate mapped
-0 + 0 singletons (0.00% : N/A)
-0 + 0 with mate mapped to a different chr
-0 + 0 with mate mapped to a different chr (mapQ>=5)
-```
+We can see thtat the most prevalent substitution is the C>T, which appears 18 times in total.
