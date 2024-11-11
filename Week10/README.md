@@ -70,7 +70,13 @@ Then, I used the observed-mutations to produce the results of the next section.
 
 #### Results
 
-I loaded the observed mutations vcf file in IGV. I attach the following pictures:
+In total I find 42 mutations:
+
+```
+grep -v '^#' observed-mutations.vcf | wc -l
+```
+
+I loaded the observed mutations vcf file alongside aligned bam file in IGV. I attach the following pictures:
 
 For instance, let's zoom in the following region that we fetch from our vcf file:
 
@@ -114,4 +120,33 @@ ST	0	T>C	4
 ST	0	T>G	1
 ```
 
-We can see thtat the most prevalent substitution is the C>T, which appears 18 times in total.
+We can see that the most prevalent substitution is the C>T, which appears 18 times in total.
+
+We can also visualize in IGV the aligned reads from the bam file, and see the variant:
+
+![align_mut.png](aligned)
+
+In this example, all reads have the substitution C>T.
+
+#### Potential false positives
+
+For purposes of demonstration, we will assume that a false positive may arise with Quality 
+less than 210 or the number of reads that support the variant to be less than 70.
+
+Using the following command:
+
+```
+bcftools filter -i 'QUAL<210 || DP <70' observed-mutations.vcf | grep -v '^#'
+```
+
+Please note that the boundaries are purely artificial and are only chosen for demonstration purposes. 
+
+In fact, it requires much lower Phred score and less number of reads supporting the variant than those defined above to actually 
+indicate a putative false positive. Under these assumptions we proceed with our analysis.
+
+We find that the following two substitutions may actually be false positives:
+
+```
+NC_045512.2	28249	.	A	T	12.5329	PASS	DP=39;VDB=3.75937e-20;SGB=-0.693136;RPBZ=-4.1833;BQBZ=-1.83488;FS=0;MQ0F=0;AC=1;AN=1;DP4=1,1,35,0;MQ=60	GT:PL	1:39,0
+NC_045512.2	28253	.	C	A	98.894	PASS	DP=67;VDB=1.80025e-41;SGB=-0.693147;RPBZ=5.63781;BQBZ=-4.74268;FS=0;MQ0F=0;AC=1;AN=1;DP4=2,10,36,15;MQ=60	GT:PL	1:218,92
+```

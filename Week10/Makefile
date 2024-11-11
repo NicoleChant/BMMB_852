@@ -5,18 +5,19 @@ ACC=NC_045512.2
 R1=download_reads/$(SRR)_1.fastq
 R2=download_reads/$(SRR)_2.fastq
 
-N=10000  # Number of reads to simulate or download
 T1=trimmed_$(R1)
 T2=trimmed_$(R2)
 ADAPTER=AGATCGGAAGAGC  # Replace with actual adapter sequence
 PDIR=reports  # Output directory for FastQC and MultiQC reports
-SEED=42  # Random seed for reproducibility
 READ_LENGTH=150  # Read length for simulation
 GENOME=$(ACC).fa
 
 REF=refs/$(ACC).fa
 SAM=align.sam
 BAM=align.bam
+PLOIDY=1
+
+.PHONY: all usage genome download trim fastqc index bam clean call_variants call_variants_from_genotypes
 
 # Default target
 all: genome download trim fastqc align call_variants call_variants_from_genotypes
@@ -30,7 +31,6 @@ usage:
 	@echo "  download  - Download reads from SRA"
 	@echo "  trim      - Trim reads using fastp"
 	@echo "  fastqc    - Run FastQC on trimmed reads"
-	@echo "  multiqc   - Run MultiQC to summarize FastQC reports"
 	@echo "  index   - Run BWA index to index reference genome"
 	@echo "  align - Alings reads to reference genome and creates an index"
 
@@ -72,4 +72,4 @@ call_variants:
 	bcftools mpileup -Ov -f $(REF) $(BAM) > genotypes.vcf
 
 call_variants_from_genotypes:
-	bcftools call -mv -Ov --ploidy 1 genotypes.vcf > observed-mutations.vcf
+	bcftools call -mv -Ov --ploidy $(PLOIDY) genotypes.vcf > observed-mutations.vcf
