@@ -124,7 +124,7 @@ We can see that the most prevalent substitution is the C>T, which appears 18 tim
 
 We can also visualize in IGV the aligned reads from the bam file, and see the variant:
 
-![align_mut.png](align_mut.png)
+![align](align_mut.png)
 
 In this example, all reads have the substitution C>T.
 
