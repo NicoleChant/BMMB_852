@@ -128,6 +128,40 @@ We can also visualize in IGV the aligned reads from the bam file, and see the va
 
 In this example, all reads have the substitution C>T.
 
+#### See some Indels??
+
+Interestingly, we can see that some deletions have been called (in fact 2 deletions):
+
+```
+grep -a 'INDEL' observed-mutations.vcf
+```
+
+```
+##INFO=<ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL.">
+NC_045512.2	22028	.	GAGTTCA	G	228.42	.	INDEL;IDV=195;IMF=0.924171;DP=211;VDB=1.67476e-06;SGB=-0.693147;RPBZ=-6.64783;MQBZ=-0.498507;MQSBZ=1.35672;SCBZ=-7.35025;FS=0;MQ0F=0;AC=1;AN=1;DP4=4,2,125,70;MQ=59	GT:PL	1:255,0
+NC_045512.2	28247	.	AGATTTC	A	228.418	.	INDEL;IDV=185;IMF=0.864486;DP=214;VDB=1.33163e-10;SGB=-0.693147;RPBZ=-6.76484;MQBZ=-0.395925;MQSBZ=0.48795;SCBZ=-9.43179;FS=0;MQ0F=0;AC=1;AN=1;DP4=4,2,153,29;MQ=59	GT:PL	1:255,0
+```
+
+We will visualize 22028. We can see that:
+
+```
+Chr: NC_045512.2
+Position: 22028-22034
+ID: .
+Reference: GAGTTCA*
+Alternate: G
+Qual: 228.42
+Type: INDEL
+Is Filtered Out: No
+```
+
+and
+
+![indel](indel.png)
+
+This deletion also causes a frameshift!
+
+
 #### Potential false positives
 
 For purposes of demonstration, we will assume that a false positive may arise with Quality 
@@ -150,3 +184,13 @@ We find that the following two substitutions may actually be false positives:
 NC_045512.2	28249	.	A	T	12.5329	PASS	DP=39;VDB=3.75937e-20;SGB=-0.693136;RPBZ=-4.1833;BQBZ=-1.83488;FS=0;MQ0F=0;AC=1;AN=1;DP4=1,1,35,0;MQ=60	GT:PL	1:39,0
 NC_045512.2	28253	.	C	A	98.894	PASS	DP=67;VDB=1.80025e-41;SGB=-0.693147;RPBZ=5.63781;BQBZ=-4.74268;FS=0;MQ0F=0;AC=1;AN=1;DP4=2,10,36,15;MQ=60	GT:PL	1:218,92
 ```
+
+As far as false negatives, it is not the case, but it could be the case that few reads have it but it's not actually called:
+
+
+![false](false_negative.png)
+
+
+#### The End!
+
+Thank you <3
