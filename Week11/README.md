@@ -19,7 +19,7 @@ PRJNA741723
 
 The sample is the Delta variant in Bangladeshi sample.
 
-![corona](https://media.giphy.com/media/MCAFTO4btHOaiNRO1k/giphy.gif?cid=790b7611995r701whaqprrihc3d36dnvcti6v3e33jdsuujm&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+![corona](images/https://media.giphy.com/media/MCAFTO4btHOaiNRO1k/giphy.gif?cid=790b7611995r701whaqprrihc3d36dnvcti6v3e33jdsuujm&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
 We will align this to the reference genome of SARS COVID-2 with the following accession ID:
 
@@ -36,7 +36,7 @@ NC_045512.2
 
 For information about the taxonomy can be found here:
 
-[link](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2697049)
+[link](images/https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2697049)
 
 This is a special viral genome which we can download with:
 
@@ -87,11 +87,11 @@ NC_045512.2	16466	.	C	T	228.431	.	DP=250;VDB=5.50447e-13;SGB=-0.693147;RPBZ=-0.3
 
 We can see this mutation in IGV indicated as blue. Blue means homozygous but in viral genomes it doesn't make any difference.
 
-![mut](IGV_mutation.png)
+![mut](images/IGV_mutation.png)
 
 Furthermore, we can check the mutation box:
 
-![mut_info](mut_info.png)
+![mut_info](images/mut_info.png)
 
 Indeed, we can see that we have a SNP from C (reference) to T (called variant).
 
@@ -124,7 +124,7 @@ We can see that the most prevalent substitution is the C>T, which appears 18 tim
 
 We can also visualize in IGV the aligned reads from the bam file, and see the variant:
 
-![align](align_mut.png)
+![align](images/align_mut.png)
 
 In this example, all reads have the substitution C>T.
 
@@ -157,7 +157,7 @@ Is Filtered Out: No
 
 and
 
-![indel](indel.png)
+![indel](images/indel.png)
 
 This deletion also causes a frameshift!
 
@@ -188,7 +188,7 @@ NC_045512.2	28253	.	C	A	98.894	PASS	DP=67;VDB=1.80025e-41;SGB=-0.693147;RPBZ=5.6
 As far as false negatives, it is not the case, but it could be the case that few reads have it but it's not actually called:
 
 
-![false](false_negative.png)
+![false](images/false_negative.png)
 
 
 #### Annotation with SNPEFF
@@ -227,12 +227,10 @@ molecular mechanism changes induced by the mutations.
 
 Perhaps, I expected too much after all =)
 
-![a](v.png)
-![a](v1.png)
-![a](v2.png)
-![a](v3.png)
-![a](v4.png)
-![a](v5.png)
+![a](images/v2.png)
+![a](images/v3.png)
+![a](images/v4.png)
+![a](images/v5.png)
 
 
 To summarize. The vast majority of the limited amount of short reads I downloaded 
