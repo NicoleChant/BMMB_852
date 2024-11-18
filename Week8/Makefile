@@ -4,7 +4,7 @@ ACC=NC_045512.2
 R1=reads/${SRR}_1.fastq
 R2=reads/${SRR}_2.fastq
 
-N=1000000  # Number of reads to simulate or download
+N=10000  # Number of reads to simulate or download
 T1=trimmed_${R1}
 T2=trimmed_${R2}
 ADAPTER=AGATCGGAAGAGC  # Replace with actual adapter sequence
@@ -69,6 +69,9 @@ index:
 
 # Align the reads and store results as a SAM file
 align: index
-	bwa mem ${REF} ${R1} > ${SAM}
+	bwa mem ${REF} ${R1} ${R2} > ${SAM}
 	cat ${SAM} | samtools sort > ${BAM}
 	samtools index ${BAM}
+
+stats:
+	samtools flagstat ${BAM}

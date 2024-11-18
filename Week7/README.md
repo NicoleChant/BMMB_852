@@ -1,4 +1,22 @@
-# Week 6
+# Week 7
+
+I downloaded the following:
+
+```
+https://www.ncbi.nlm.nih.gov/sra/SRR15829420
+```
+
+It's Whole Genome Sequencing of SARS COVID-2 using Illumina MiniSeq reads.
+
+The bioproject is the following:
+```
+PRJNA741723
+```
+
+The sample is the Delta variant in Bangladeshi sample.
+We will align this to the reference genome of SARS COVID-2 with the following accession ID:
+
+
 
 ## Introduction
 

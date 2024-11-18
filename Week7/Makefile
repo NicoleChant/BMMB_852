@@ -1,6 +1,5 @@
 # Variables
-SRR = SRR17400382 
-SRR = SRR062634
+SRR=SRR15829420
 ACC = NC_045512.2
 R1 = reads/read1.fq
 R2 = reads/read2.fq
@@ -13,6 +12,7 @@ PDIR = reports  # Output directory for FastQC and MultiQC reports
 SEED = 42  # Random seed for reproducibility
 READ_LENGTH = 150  # Read length for simulation
 GENOME = $(ACC).fa
+
 # Default target
 all: genome simulate download trim fastqc
 
@@ -39,15 +39,17 @@ simulate: genome
 	wgsim -S $(SEED) -N $(N) -1 $(READ_LENGTH) -2 $(READ_LENGTH) -r 0 -R 0 -X 0 $(GENOME) $(R1) $(R2)
 
 download:
+	mkdir -p downloaded_reads
 	prefetch $(SRR)
-	fasterq-dump --split-files $(SRR)
+	fasterq-dump --split-files $(SRR) -O downloaded_reads/
 
 trim: 
 	mkdir -p trimmed_reads/
 	fastp --adapter_sequence=$(ADAPTER) --cut_tail \
-	      -i $(SRR)_1.fastq -I $(SRR)_2.fastq -o $(T1) -O $(T2)
+	      -i downloaded_reads/$(SRR)_1.fastq -I downloaded_reads/$(SRR)_2.fastq -o $(T1) -O $(T2)
 
 fastqc: trim
+	mkdir -p reports
 	fastqc -q -o $(PDIR) $(T1) $(T2)
 
 multiqc: fastqc

@@ -1,7 +1,5 @@
 # Download, Generate and Visualize GFF files in IGV 
 
-
-
 Organism Accession ID: GCF_000005845.2
 
 GFF: GCF_000005845.2_ASM584v2_genomic.gff.gz 
@@ -46,7 +44,6 @@ I chose different track colors for reverse and forward strand for the genes.
 ![igv_zoom](IGV_more_zoomed.png)
 
 #### Custom GFF File 
-
 
 A custom GFF file was created:
 

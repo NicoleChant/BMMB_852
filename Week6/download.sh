@@ -39,9 +39,6 @@ mkdir -p ${RDIR} ${PDIR}
 # Download the FASTQ file
 fastq-dump -X ${N} --split-files -O ${RDIR} ${SRR} 
 
-# Run fastqc
-fastqc -q -o ${PDIR} ${R1} ${R2}
-
 # Run fastp and trim for quality
 fastp --adapter_sequence=${ADAPTER} --cut_tail \
       -i ${R1} -I ${R2} -o ${T1} -O ${T2} 

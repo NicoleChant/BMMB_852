@@ -1,9 +1,9 @@
 #!/bin/bash 
 
 set -eu
-
 # CONSTANTS
 READ_LENGTH=200
+SEED=123131
 
 # download genome 
 accession_id=${1:-GCA_000240185.2}
@@ -23,7 +23,6 @@ mv ${accession} ..
 cd ..
 rm -rf ${tmp}
 # remove temp file 
-#
 echo -e "Working on: ${accession}\n"
 echo "########## Calculating file size ##############"
 
@@ -32,7 +31,6 @@ stat -c "%s" ${accession}
 
 # disk usage
 du -sh ${accession}
-
 echo -e "\n########### Calculating genome stats #################"
 
 # calculate genome stats
@@ -61,7 +59,7 @@ if ! command -v wgsim > /dev/null; then
 fi
 
 mkdir reads/
-wgsim -N ${totalReads} -1 ${READ_LENGTH} -2 ${READ_LENGTH} -r 0 -R 0 -X 0 ${accession} reads/read1.fq reads/read2.fq
+wgsim -S ${SEED} -N ${totalReads} -1 ${READ_LENGTH} -2 ${READ_LENGTH} -r 0 -R 0 -X 0 ${accession} reads/read1.fq reads/read2.fq
 
 echo -e "\n############# Estimating read sizes #############"
 du -sh reads/*
