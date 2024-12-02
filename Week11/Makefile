@@ -69,7 +69,7 @@ index:
 
 # Align the reads and store results as a SAM file
 align:
-	bwa mem $(REF) $(R1) $(R2) > $(BAM)
+	bwa mem $(REF) $(T1) $(T2) > $(BAM)
 	samtools sort $(BAM) -o $(SORTED_BAM)
 	samtools index $(SORTED_BAM)
 
