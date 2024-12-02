@@ -1,4 +1,4 @@
-JOBS=2
+JOBS=3
 # download Ebola
 ACC=NC_002549.1
 SNPEFF_DB=NC_045512.2
@@ -6,7 +6,6 @@ SNPEFF_DB=NC_045512.2
 R1=download_reads/$(SRR)_1.fastq
 R2=download_reads/$(SRR)_2.fastq
 VCF=vcf
-N=9999
 
 DATASET_READS="design.csv"
 
@@ -36,7 +35,7 @@ MAKEFLAGS += --no-builtin-rules
 
 all: genome process_reads merge
 
-download_runs:
+create_design:
 	@echo "Downloading project files..."
 	bio search $(BIOPROJECT) -H --csv | csvtk cut -f run_accession,sample_alias | head > $(DATASET_READS)
 
@@ -45,12 +44,13 @@ genome:
 
 process_reads:
 	@echo "Processing reads in parallel using $(JOBS) jobs."
-	cat $(DATASET_READS) | parallel --colsep , --header -j $(JOBS) : make all -f pipeline.mk SRR={run} COVERAGE={coverage}
-	# ./process_reads.sh $(DATASET_READS) $(JOBS)
+	# cat $(DATASET_READS) | parallel --colsep , --header -j $(JOBS) : make all -f pipeline.mk SRR={run} COVERAGE={coverage}
+	./process_reads.sh $(DATASET_READS) $(JOBS)
 
 merge:
 	@echo "Merging VCF files"
 	echo $(VCF)
+	mkdir -p $(VCF)
 	ulimit -Sn 1024
 	find $(VCF) -maxdepth 1 -type f -name "*observed-mutations.sorted.vcf" > vcf_files.txt
 	bcftools merge -Ov \
