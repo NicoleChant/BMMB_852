@@ -171,6 +171,8 @@ ENSMUSG00000050195,ENSMUSG00000050195,1,1,0
 ENSMUSG00000037071,ENSMUSG00000037071,14,10,49
 ```
 
+Since, the counts reformed matrix, is only 1400 rows, I compressed it and attach it for reference.
+
 ### Results in IGV
 
 
@@ -181,3 +183,7 @@ The final step was to visualize the three bigwig files that I generated:
 ![big2](images/bigwigIGV2.png)
 
 
+
+Thank you <3
+
+Nikol
