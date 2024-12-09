@@ -23,7 +23,7 @@ I created two makefiles:
 - process.mk: handles a specific SRA ID and produces a bam and a big wig file.
 - Makefile: orchestrates using GNU parallel the production of multiple bam and big wig file from a transcriptomic study.
 
-For this assignment, I used the chromosome 19 mouse genome, which you can download ensembl as follows:
+For this assignment, I used the chromosome 19 of the mouse genome, which you can download ensembl as follows:
 
 ```
 wget -q -P refs/ https://ftp.ensembl.org/pub/release-109/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.chromosome.19.fa.gz
@@ -41,7 +41,7 @@ To perform RNAseq, I used bioproject PRJNA483261 from the study `Transcriptomics
 
 You can find all experiments here:
 
-[exp](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP156616&o=acc_s%3Aa)
+[experiment-mouse](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP156616&o=acc_s%3Aa)
 
 I limited myself to the following three experiments:
 
@@ -176,7 +176,9 @@ Since, the counts reformed matrix, is only 1400 rows, I compressed it and attach
 ### Results in IGV
 
 
-The final step was to visualize the three bigwig files that I generated:
+The final step was to visualize the three bigwig files that I generated.
+
+I think it resembles RNAseq data, since I can see peaks around the genes.
 
 ![big1](images/bigwigIGV.png)
 
