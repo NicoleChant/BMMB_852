@@ -112,8 +112,8 @@ PLEASE NOT because I used three samples, this is only for demonstration purposes
 
 Finally, these are the plots:
 
-![pca1](plots/pca_1.png)
-![pca2](plots/pca_2.png)
+![pca1](images/pca_1.png)
+![pca2](images/pca_2.png)
 
 ## THE END!
 
