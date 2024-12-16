@@ -115,6 +115,37 @@ Finally, these are the plots:
 ![pca1](images/pca_1.png)
 ![pca2](images/pca_2.png)
 
+
+## Following a different example
+
+Because, it was difficult to download all the mus musculus transcriptomics dataset,
+I followed the tutorial on biostars, to succesfully complete this challenge.
+
+I also followed on biostars handbook webpage, 
+the tutorial on RNAseq to generate the required heatmap.
+
+I used the following commands:
+
+- Rscript src/r/simulate_counts.r
+- Rscript src/r/edger.r
+- Rscript src/r/evaluate_results.r  -a counts.csv -b edger.csv
+- Rscript src/r/plot_pca.r -c edger.csv
+- Rscript src/r/plot_heatmap.r -c edger.csv
+
+The `edger.csv` looked as follows:
+
+```
+name,state,baseMean,baseMeanA,baseMeanB,foldChange,log2FoldChange,PValue,PAdj,FDR,falsePos,A1,A2,A3,B1,B2,B3
+GENE-4940,YES,18745.7,410,18335.7,44.674,5.5,5.9e-09,0.0e+00,0,0,446,429,355,17030,18479,19498
+GENE-7510,YES,2297,27,2270,84.122,6.4,6.9e-09,0.0e+00,0,0,26,25,30,1961,2357,2492
+GENE-6426,YES,11329.3,1276,10053.3,7.878,3,4.4e-08,2.0e-04,1e-04,0,1342,1258,1228,10312,9878,9970
+```
+
+I display below the generated plots:
+
+![heatmap](images/heatmap.pdf)
+![pca](images/pca.pdf)
+
 ## THE END!
 
 Thank you <3
