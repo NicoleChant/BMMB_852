@@ -16,21 +16,26 @@ Draw a PCA plot and a heatmap for these genes.
 
 Discuss the results. How many genes have you found. What kind of expression levels can you observe. How reliable does your data seem?
 
+## WARNING! (Computational limitations)
+
+PLEASE NOTE because I used three samples of Mus Musculus, 
+this is only for demonstration purposes!!!
+
+The final results do not depict reality (only three data points)!
+
 ## Assignment
 
-I created two makefiles:
+In the previous Week I created two makefiles:
 
 - process.mk: handles a specific SRA ID and produces a bam and a big wig file.
 - Makefile: orchestrates using GNU parallel the production of multiple bam and big wig file from a transcriptomic study.
 
 For this assignment, I used the chromosome 19 of the mouse genome, which you can download ensembl as follows:
-
 ```
 wget -q -P refs/ https://ftp.ensembl.org/pub/release-109/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.chromosome.19.fa.gz
 ```
 
 Also, I downloaded the GTF file, and kept only the entries that start with 19 using grep command:
-
 ```
 wget -q -P gtf/ https://ftp.ensembl.org/pub/release-109/gtf/mus_musculus/Mus_musculus.GRCm39.109.chr.gtf.gz
 ```
@@ -55,128 +60,62 @@ due to computational limitations. Furthermore, because I just want it to test th
 incorrectly mapped SRR7657882, since this is the wrong control for the first two experiments, but for purposes 
 of demonstration, I will overlook it.
 
-I downloaded the raw reads using prefetch and fasterq-dump --split-files command.
 
-This results in the following read directory:
+### Differential Expression Analysis
 
-```
-du -sh full_reads/*
-12G	full_reads/SRR7657880_1.fastq
-12G	full_reads/SRR7657880_2.fastq
-12G	full_reads/SRR7657881_1.fastq
-12G	full_reads/SRR7657881_2.fastq
-15G	full_reads/SRR7657882_1.fastq
-15G	full_reads/SRR7657882_2.fastq
-```
+For the differential expression analysis I started from the files of Week 13.
 
-Because the datasets are a bit large, I kept only the first 400_000 raw reads. Thus, I created the limited reads/ directory:
+I had generated the counts.txt for the mouse transcriptomics data. 
+I downloaded the informative gene names for Mus musculus using:
 
 ```
-du -sh reads/*
-4.4M	reads/SRR7657880_1.fastq
-4.4M	reads/SRR7657880_2.fastq
-4.4M	reads/SRR7657881_1.fastq
-4.4M	reads/SRR7657881_2.fastq
-4.4M	reads/SRR7657882_1.fastq
-4.4M	reads/SRR7657882_2.fastq
+Rscript src/r/create_tx2gene.r -d "mmusculus_gene_ensembl"
 ```
 
-I created index using:
+Finally, I created the counts.csv using these new gene names:
 
 ```
-make -f src/run/hisat2.mk index REF=refs/Mus_musculus.GRCm39.dna.chromosome.19.fa
+Rscript src/r/format_featurecounts.r -c counts.txt -t tx2gene.csv -o counts.csv
 ```
 
-and I received an output:
+This is an example of how it looks like:
 ```
-Total time for call to driver() for forward index: 00:02:23
-# hisat2 index: refs//idx/Mus_musculus.GRCm39.dna.chromosome.19.fa
-```
-
-### HiSat2
-
-My design file looked like this:
-
-```
-sample,group
-SRR7657880,infected
-SRR7657881,infected
-SRR7657882,control
+name,gene,SRR7657880,SRR7657881,SRR7657882
+ENSMUSG00000077223,Gm22271,0,0,0
+ENSMUSG00000044387,ENSMUSG00000044387,1,0,0
+ENSMUSG00000033863,Klf9,41,45,42
 ```
 
-Now that the design file is ready, I generated the process.mk which receives as an input:
+I implemented this as a new rule in the Makefile of Week13.
 
-- The reference genome path
-- the R1 (first read pair)
-- the R2 (second read pair)
-
-and produces a bam and big wig file.
-
-To parallelize and automate this procedure for multiple files, I generated a second makefile, named Makefile,
-which now used GNU parallel to produce multiple bam and big wig files. In particular, the new Makefile,
-provides two main rules:
-
-- run: processes design.csv and produces bam and bigWig files.
-- count: counts in parallel all the results from the run step.
-
-For more information, please check out the provided scripts.
-
-I ran it as follows:
+Now I used deseq:
 
 ```
-make all DESIGN=design.csv
-```
-
-The resulting count.txt looks like this:
-
-```
- Program:featureCounts v1.5.3; Command:"featureCounts" "-a" "gtf/Mus_musculus.GRCm39.109.chr19.gtf" "-o" "counts.txt" "bam/SRR7657880.bam" "bam/SRR7657881.bam" "bam/SRR7657882.bam" 
-Geneid	Chr	Start	End	Strand	Length	bam/SRR7657880.bam	bam/SRR7657881.bam	bam/SRR7657882.bam
-ENSMUSG00000077223	19	56265950	56266077	-	128	0	0	0
-ENSMUSG00000044387	19;19	23112264;23112723	23112318;23113081	+;+	414	1	0	0
-ENSMUSG00000033863	19;19;19;19	23118590;23121008;23142047;23142047	23119623;23121336;23145498;23142835	+;+;+;+	4815	41	45	42
-```
-
-Finally, I implemented one final rule: reformat, using the Rscript featurecounts.r, as follows:
-
-```
-reformat:
-	Rscript src/r/format_featurecounts.r -c counts.txt -o $(COUNTS_RE)
-```
-
-and integrated this into all. After running the reformat rule, the counts look like this:
-
-```
-head counts.reformed.txt 
+conda run -n stats Rscript src/r/deseq2.r -d design.csv \
+                        -c counts.csv -o $(DESEQ) \
+                        -s sample
 ```
 
 which displayed:
-
 ```
-name,gene,SRR7657880,SRR7657881,SRR7657882
-ENSMUSG00000077223,ENSMUSG00000077223,0,0,0
-ENSMUSG00000044387,ENSMUSG00000044387,1,0,0
-ENSMUSG00000033863,ENSMUSG00000033863,41,45,42
-ENSMUSG00000080626,ENSMUSG00000080626,0,0,0
-```
-As far as, the question, Visually identify rows where the counts show consistent gene expression levels, I can see that for instance, the second row from the 
-chunk provided below displays consistent levels (the control is also different so it definitely affects - as stated in the beginning).
-
-```
-ENSMUSG00000117958,ENSMUSG00000117958,0,0,0
-ENSMUSG00000025203,ENSMUSG00000025203,114,181,265
-ENSMUSG00000093315,ENSMUSG00000093315,0,0,0
-ENSMUSG00000117957,ENSMUSG00000117957,0,0,2
-ENSMUSG00000050195,ENSMUSG00000050195,1,1,0
-ENSMUSG00000037071,ENSMUSG00000037071,14,10,49
+name,gene,baseMean,baseMeanA,baseMeanB,foldChange,log2FoldChange,lfcSE,stat,PValue,PAdj,FDR,falsePos,SRR7657880,SRR7657881,SRR7657882
+ENSMUSG00000046805,Mpeg1,28.5,41.8,1.9,0.045,-4.5,1.2,-3.74,1.9e-04,9.2e-02,0.0919,0,37.3,46.4,1.9
 ```
 
-Since, the counts reformed matrix, is only 1400 rows, I compressed it and attach it for reference.
+This was also added in the Makefile as a `deseq2` rule.
 
-## Differential Expression Analysis
+Finally, I implemented a new rule in the Makefile to generate the RNAseq plots from deseq outputs.
 
+The plots were redirected in the `plots` directory.
 
+PLEASE NOT because I used three samples, this is only for demonstration purposes!!!
 
+Finally, these are the plots:
+
+!(pca1)[plots/pca_1.png]
+!(pca2)[plots/pca_2.png]
+
+## THE END!
 
 Thank you <3
 
